@@ -100,7 +100,7 @@ class AnalizadorLexico:
                 self.i -= 1
 
     def s2(self,caracter : str):
-        self.agregar_token(self.buffer,self.linea,self.columna,'cadena')
+        self.agregar_token(self.buffer,self.linea,self.columna,'menorQue')
         self.estado = 0
         self.i -= 1
 

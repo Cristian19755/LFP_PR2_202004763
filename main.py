@@ -14,18 +14,23 @@ class main:
 
     def add(self):
         self.geted = self.J.get()
-        entry = self.texto + '\nUser: '+ self.geted
-        F = Label(self.root, text=entry,bg='yellow', font=('Verdana',14), justify='left')
-        F.grid(row=0,column=0)
         ToEr = AnalizadorLexico()
-        ToEr.analizar(entry)
+        ToEr.analizar(self.geted)
         Tokens = ToEr.listaTokens
         Errores = ToEr.listaErrores
-        AnalizadorSintactico(Tokens).analizar()
-        self.texto += '\nUser: '+ self.geted
+        ToEr.imprimirTokens()
+        ToEr.imprimirErrores()
+        k = AnalizadorSintactico(Tokens)
+        k.analizar()
+        res = open('respuestas.txt','r')
+        res = res.read()
+        out = '\nBOT: ' + str(res)
+        entry = self.texto + '\nUser: '+ self.geted + out
+        F = Label(self.root, text=entry,bg='yellow', font=('Verdana',14), justify='left')
+        F.grid(row=0,column=0)
+        self.texto += '\nUser: '+ self.geted + out
         self.geted = ''
         
-
     def Fecha(x=str):
         with open('LaLigaBot-LFP.csv') as csvfile:
             reader = csv.DictReader(csvfile)

@@ -1,4 +1,5 @@
 import easygui
+from instrucciones import resultado
 class AnalizadorSintactico:
 
     def __init__(self,tokens : list) -> None:
@@ -23,7 +24,7 @@ class AnalizadorSintactico:
             return None
     
     def analizar(self):
-        self.S()
+        self.S()   
 
     def S(self):
         self.INICIO()
@@ -54,6 +55,7 @@ class AnalizadorSintactico:
             if token.tipo == 'cadena':
                 equipoA = token.lexema
                 token = self.sacarToken()
+             
                 if token.tipo == 'reservada_VS':
                     token = self.sacarToken()
                     if token.tipo == 'cadena':
@@ -63,8 +65,8 @@ class AnalizadorSintactico:
                             token = self.sacarToken()
                             if token.tipo == 'menorQue':
                                 token = self.sacarToken()
+                                temporadaI = token.lexema
                                 if token.tipo == 'entero':
-                                    temporadaI = token.lexema
                                     token = self.sacarToken()
                                     if token.tipo == 'guion':
                                         token = self.sacarToken()
@@ -73,7 +75,9 @@ class AnalizadorSintactico:
                                             token = self.sacarToken()
                                             if token.tipo == 'mayorQue':
                                                 temporada = str(temporadaI) + '-' + str(temporadaF)
-                                                ##################################################
+                                                res = resultado(equipoA,equipoB,temporada)
+                                                x = open('respuestas.txt','w')
+                                                x.write(res)
                                             else:
                                                 self.agregarError("mayorQue","EOF")
                                         else:
