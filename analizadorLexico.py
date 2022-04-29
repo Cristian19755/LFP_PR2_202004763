@@ -174,8 +174,7 @@ class AnalizadorLexico:
                 self.s6(cadena[self.i])  
             elif self.estado == 7:
                 self.s7(cadena[self.i])           
-            self.i += 1
-            print(self.estado)    
+            self.i += 1  
 
     def imprimirTokens(self):
         x = PrettyTable()
@@ -190,8 +189,3 @@ class AnalizadorLexico:
         for error_ in self.listaErrores:
             x.add_row([error_.descripcion, error_.linea, error_.columna])
         print(x)        
-
-M = AnalizadorLexico()
-M.analizar('')
-M.imprimirTokens()
-M.imprimirErrores()

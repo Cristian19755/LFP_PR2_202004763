@@ -1,34 +1,86 @@
-import csv
-from easygui import msgbox 
+from msilib.schema import Error
+from tkinter import  RAISED,Button, Entry, Label, Menu, Menubutton, Text, Tk, filedialog,END
+from easygui import msgbox
+from analizadorLexico import AnalizadorLexico
+from analizadorSintactico import AnalizadorSintactico
+import webbrowser
+from functools import partial
+import csv 
+class main:
+    def __init__(self):
+        self.texto = 'BOT: HOLA USUARIO!!!'
+        self.geted = ''
+        self.root = Tk()
 
-def Fecha(x=str):
-    with open('LaLigaBot-LFP.csv') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            if row['Fecha'] == x:
-                print(row['Fecha'])
-def Temporada(x=int):
-    with open('LaLigaBot-LFP.csv') as csvfile:
-        reader = csv.DictReader(csvfile)
-        contador = 0
-        for row in reader:
-            if x == contador:
-                print(row['Fecha'])
-                break
-            else:
-                contador +=1
-def Jornada(x=int):
-    with open('LaLigaBot-LFP.csv') as csvfile:
-        reader = csv.DictReader(csvfile)
-        contador = 0
-        for row in reader:
-            if x == contador:
-                print(row['Fecha'])
-                break
-            else:
-                contador +=1
-print(msgbox('ADIOS','ADIOS'))
-exit()
+    def add(self):
+        self.geted = self.J.get()
+        entry = self.texto + '\nUser: '+ self.geted
+        F = Label(self.root, text=entry,bg='yellow', font=('Verdana',14), justify='left')
+        F.grid(row=0,column=0)
+        ToEr = AnalizadorLexico()
+        ToEr.analizar(entry)
+        Tokens = ToEr.listaTokens
+        Errores = ToEr.listaErrores
+        AnalizadorSintactico(Tokens).analizar()
+        self.texto += '\nUser: '+ self.geted
+        self.geted = ''
+        
+
+    def Fecha(x=str):
+        with open('LaLigaBot-LFP.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if row['Fecha'] == x:
+                    print(row['Fecha'])
+    def Temporada(x=int):
+        with open('LaLigaBot-LFP.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            contador = 0
+            for row in reader:
+                if x == contador:
+                    print(row['Fecha'])
+                    break
+                else:
+                    contador +=1
+    def Jornada(x=int):
+        with open('LaLigaBot-LFP.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            contador = 0
+            for row in reader:
+                if x == contador:
+                    print(row['Fecha'])
+                    break
+                else:
+                    contador +=1
+
+    def interfaz(self):
+
+        self.root.geometry('645x600')
+
+        ##########################################################################
+        C = Menubutton(self.root, text='REPORTES', relief=RAISED,  bg='blue', fg='white',height=3, width=15)
+        C.grid(row=0, column=3, sticky='E')
+        C.menu = Menu( C, tearoff = 0)
+        C["menu"] =  C.menu
+
+        C.menu.add_command(label='Reporte de Errores')
+        C.menu.add_command(label='Limpiar log de Errores')
+        C.menu.add_command(label='Reporte de Tokens')
+        C.menu.add_command(label='Limpiar log de Tokens')
+        C.menu.add_command(label='Manual Tecnico')
+        C.menu.add_command(label='Manual de usuario')
+        Label(self.root, text='                                                              ').grid(row=0,column=1)
+        F = Label(self.root, text='Bot:   Hola Usuario!!!',bg='yellow', font=('Verdana',14))
+        F.grid(row=0,column=0)
+
+        ###########################################################################
+        E = Button(self.root, text ='Enviar', command= self.add,  bg='blue', fg='white',height=3, width=15)
+        E.grid(row=2, column=0)
+
+        self.J = Entry(self.root, width=60)
+        self.J.grid(row=1,column=0)
 
 
-            
+        self.root.mainloop()
+M = main()
+M.interfaz()
