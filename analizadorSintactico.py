@@ -1,5 +1,5 @@
 import easygui
-from instrucciones import resultado
+from instrucciones import resultado, goles
 class AnalizadorSintactico:
 
     def __init__(self,tokens : list) -> None:
@@ -177,7 +177,9 @@ class AnalizadorSintactico:
                                             token = self.sacarToken()
                                             if token.tipo == 'mayorQue':
                                                 temporada = str(temporadaI) + '-' + str(temporadaF)
-                                                ########################################
+                                                res = goles(condicion,equipo,temporada)
+                                                x = open('respuestas.txt','w')
+                                                x.write(res)
                                             else:
                                                 self.agregarError("cadena","EOF")
                                         else:
